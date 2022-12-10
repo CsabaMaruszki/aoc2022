@@ -255,7 +255,30 @@ const inputs = new Inputs();
       });
     });
     console.log(`Day 3/1: ${prioritySum}`);
+    prioritySum = 0;
+  }
+
+  function part2() {
+    let counter: number = 0;
+    let group: Array<Set<string>> = new Array<Set<string>>();
+    comp1Sets.forEach((items, index) => {
+      let currentSet = new Set<string>(items);
+      comp2Sets[index].forEach((item) => currentSet.add(item));
+      group.push(currentSet);
+      counter++;
+      if (counter % 3 === 0) {
+        group[0].forEach((item) => {
+          if (group[1].has(item) && group[2].has(item)) {
+            prioritySum += priorityValues.get(item)!;
+          }
+        });
+        counter = 0;
+        group = new Array<Set<string>>();
+      }
+    });
+    console.log(`Day 3/2: ${prioritySum}\n`);
   }
 
   part1();
+  part2();
 })();
