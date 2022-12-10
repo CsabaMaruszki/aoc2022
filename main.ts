@@ -1,5 +1,7 @@
 import './common/stringExpansion';
 import './common/arrayExpansion';
+import './common/numberExpansion';
+import './common/MathExpansion';
 import Inputs from './common/inputs';
 
 const inputs = new Inputs();
@@ -279,6 +281,59 @@ const inputs = new Inputs();
     console.log(`Day 3/2: ${prioritySum}\n`);
   }
 
+  part1();
+  part2();
+})();
+
+(function day4() {
+  const input = inputs.get(4);
+  const pairs = new Array<Array<Map<string, number>>>();
+
+  input.splitToArray('\n').forEach((row) => {
+    let pair = new Array<Map<string, number>>();
+    row.splitToArray(',').forEach((data) => {
+      let values = new Map<string, number>();
+      const temp = data.split('-');
+      values.set('min', parseInt(temp[0], 10));
+      values.set('max', parseInt(temp[1], 10));
+      pair.push(values);
+    });
+    pairs.push(pair);
+  });
+
+  function part1() {
+    let counter = 0;
+    pairs.forEach((pair) => {
+      if (
+        Math.rangeBetweenOrEqual(
+          [pair[0].get('min')!, pair[0].get('max')!],
+          [pair[1].get('min')!, pair[1].get('max')!]
+        ) ||
+        Math.rangeBetweenOrEqual(
+          [pair[1].get('min')!, pair[1].get('max')!],
+          [pair[0].get('min')!, pair[0].get('max')!]
+        )
+      ) {
+        counter++;
+      }
+    });
+    console.log(`Day 4/1: ${counter}`);
+  }
+
+  function part2() {
+    let counter = 0;
+    pairs.forEach((pair) => {
+      if (
+        Math.rangeOverlap(
+          [pair[0].get('min')!, pair[0].get('max')!],
+          [pair[1].get('min')!, pair[1].get('max')!]
+        )
+      ) {
+        counter++;
+      }
+    });
+    console.log(`Day 4/2: ${counter}\n`);
+  }
   part1();
   part2();
 })();
